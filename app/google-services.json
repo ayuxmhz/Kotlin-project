@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "636940930547",
+    "firebase_url": "https://housemanagement-5db65-default-rtdb.firebaseio.com",
+    "project_id": "housemanagement-5db65",
+    "storage_bucket": "housemanagement-5db65.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636940930547:android:718076519a3298588a1686",
+        "android_client_info": {
+          "package_name": "com.example.c36a"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABPCfgHQhOU7cq703Q3J65A0sq1jeyYWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
