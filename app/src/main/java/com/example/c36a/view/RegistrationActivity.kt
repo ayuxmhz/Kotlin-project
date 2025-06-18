@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -42,6 +43,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,8 +59,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -100,12 +104,14 @@ fun RegBody(innerPaddingValues: PaddingValues) {
 
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
-    // Modern color scheme
-    val primaryColor = Color(0xFF2196F3)
-    val backgroundColor = Color(0xFFf8f9fa)
-    val cardColor = Color.White
-    val textColor = Color(0xFF212529)
-    val placeholderColor = Color(0xFF6C757D)
+    // Auction-themed color scheme (exactly same as LoginActivity)
+    val primaryColor = Color(0xFFD4AF37) // Gold
+    val backgroundColor = Color(0xFF1A1A1A) // Dark background
+    val cardColor = Color(0xFF2D2D2D) // Dark card
+    val textColor = Color(0xFFE8E8E8) // Light text
+    val placeholderColor = Color(0xFFB8B8B8) // Light gray placeholder
+    val accentColor = Color(0xFFD4AF37) // Gold accent
+    val inputBackgroundColor = Color(0xFF3D3D3D) // Dark input background
 
     Box(
         modifier = Modifier
@@ -113,8 +119,9 @@ fun RegBody(innerPaddingValues: PaddingValues) {
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        backgroundColor,
-                        Color(0xFFe9ecef)
+                        Color(0xFF2C1810), // Dark brown
+                        Color(0xFF1A1A1A), // Charcoal
+                        Color(0xFF0F0F0F)  // Almost black
                     )
                 )
             )
@@ -127,108 +134,118 @@ fun RegBody(innerPaddingValues: PaddingValues) {
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(60.dp))
 
-            // App Header
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+            // App Header - Auction themed (exactly same as LoginActivity)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(
-                    imageVector = Icons.Default.Home,
-                    contentDescription = null,
-                    tint = primaryColor,
-                    modifier = Modifier.size(32.dp)
+                Text(
+                    text = "⚖️",
+                    fontSize = 48.sp,
+                    color = primaryColor
                 )
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Auction",
-                    fontSize = 28.sp,
+                    fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textColor
+                    color = primaryColor
                 )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Create your account to get started",
+                text = "Create account to start bidding on exclusive items",
                 fontSize = 16.sp,
                 color = placeholderColor,
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(50.dp))
 
-            // Registration Card
+            // Registration Card (exactly same styling as LoginActivity)
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .shadow(
-                        elevation = 8.dp,
+                        elevation = 12.dp,
                         shape = RoundedCornerShape(16.dp),
-                        ambientColor = Color.Black.copy(alpha = 0.1f)
+                        ambientColor = primaryColor.copy(alpha = 0.1f)
                     ),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = cardColor)
+                colors = CardDefaults.cardColors(
+                    containerColor = cardColor
+                )
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(24.dp)
+                        .padding(28.dp)
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Register",
-                        fontSize = 24.sp,
+                        text = "Create Account",
+                        fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
-                        color = textColor,
-                        modifier = Modifier.padding(bottom = 24.dp)
+                        color = primaryColor,
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
 
-                    // Name Fields Row
-                    Row(
+                    Text(
+                        text = "Join the auction community",
+                        fontSize = 14.sp,
+                        color = placeholderColor,
+                        modifier = Modifier.padding(bottom = 28.dp)
+                    )
+
+                    // First Name Field
+                    OutlinedTextField(
+                        value = firstName,
+                        onValueChange = { firstName = it },
+                        placeholder = { Text("First Name", color = placeholderColor) },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Person,
+                                contentDescription = null,
+                                tint = primaryColor
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        OutlinedTextField(
-                            value = firstName,
-                            onValueChange = { firstName = it },
-                            placeholder = { Text("First Name", color = placeholderColor) },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Person,
-                                    contentDescription = null,
-                                    tint = primaryColor
-                                )
-                            },
-                            modifier = Modifier.weight(1f),
-                            shape = RoundedCornerShape(12.dp),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = primaryColor,
-                                unfocusedBorderColor = Color(0xFFDEE2E6),
-                                focusedLabelColor = primaryColor
-                            )
+                        shape = RoundedCornerShape(12.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = primaryColor,
+                            unfocusedBorderColor = Color(0xFF4A4A4A),
+                            focusedLabelColor = primaryColor,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White
                         )
-                        OutlinedTextField(
-                            value = lastname,
-                            onValueChange = { lastname = it },
-                            placeholder = { Text("Last Name", color = placeholderColor) },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Person,
-                                    contentDescription = null,
-                                    tint = primaryColor
-                                )
-                            },
-                            modifier = Modifier.weight(1f),
-                            shape = RoundedCornerShape(12.dp),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = primaryColor,
-                                unfocusedBorderColor = Color(0xFFDEE2E6),
-                                focusedLabelColor = primaryColor
+                    )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    // Last Name Field
+                    OutlinedTextField(
+                        value = lastname,
+                        onValueChange = { lastname = it },
+                        placeholder = { Text("Last Name", color = placeholderColor) },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Person,
+                                contentDescription = null,
+                                tint = primaryColor
                             )
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = primaryColor,
+                            unfocusedBorderColor = Color(0xFF4A4A4A),
+                            focusedLabelColor = primaryColor,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White
                         )
-                    }
+                    )
 
                     Spacer(modifier = Modifier.height(20.dp))
 
@@ -248,14 +265,19 @@ fun RegBody(innerPaddingValues: PaddingValues) {
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = primaryColor,
-                            unfocusedBorderColor = Color(0xFFDEE2E6),
-                            focusedLabelColor = primaryColor
+                            unfocusedBorderColor = Color(0xFF4A4A4A),
+                            focusedLabelColor = primaryColor,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email
                         )
                     )
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    // Country Dropdown
+                    // Country Dropdown Field
                     Box(modifier = Modifier.fillMaxWidth()) {
                         OutlinedTextField(
                             value = selectedOptionText,
@@ -270,9 +292,9 @@ fun RegBody(innerPaddingValues: PaddingValues) {
                             enabled = false,
                             shape = RoundedCornerShape(12.dp),
                             colors = OutlinedTextFieldDefaults.colors(
-                                disabledBorderColor = Color(0xFFDEE2E6),
-                                disabledContainerColor = Color.White,
-                                disabledTextColor = textColor
+                                disabledBorderColor = Color(0xFF4A4A4A),
+                                disabledContainerColor = cardColor,
+                                disabledTextColor = Color.White
                             ),
                             leadingIcon = {
                                 Icon(
@@ -296,17 +318,19 @@ fun RegBody(innerPaddingValues: PaddingValues) {
                             modifier = Modifier
                                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
                                 .background(
-                                    Color.White,
+                                    cardColor,
                                     RoundedCornerShape(12.dp)
                                 )
+                                .shadow(8.dp, RoundedCornerShape(12.dp))
                         ) {
                             options.forEach { option ->
                                 DropdownMenuItem(
                                     text = {
                                         Text(
                                             option,
-                                            color = textColor,
-                                            fontSize = 16.sp
+                                            color = Color.White,
+                                            fontSize = 16.sp,
+                                            fontWeight = FontWeight.Medium
                                         )
                                     },
                                     onClick = {
@@ -337,14 +361,41 @@ fun RegBody(innerPaddingValues: PaddingValues) {
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = primaryColor,
-                            unfocusedBorderColor = Color(0xFFDEE2E6),
-                            focusedLabelColor = primaryColor
+                            unfocusedBorderColor = Color(0xFF4A4A4A),
+                            focusedLabelColor = primaryColor,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                    // Register Button
+                    // Terms and conditions text (similar to remember me section in login)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            "By creating account, you agree to our ",
+                            color = placeholderColor,
+                            fontSize = 12.sp
+                        )
+                        Text(
+                            "Terms & Conditions",
+                            color = primaryColor,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium,
+                            textDecoration = TextDecoration.Underline
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(28.dp))
+
+                    // Register Button (exactly same styling as login button)
                     Button(
                         onClick = {
                             userViewModel.register(email, password) { success, message, userId ->
@@ -372,21 +423,47 @@ fun RegBody(innerPaddingValues: PaddingValues) {
                             containerColor = primaryColor
                         ),
                         elevation = ButtonDefaults.buttonElevation(
-                            defaultElevation = 4.dp,
-                            pressedElevation = 8.dp
+                            defaultElevation = 6.dp,
+                            pressedElevation = 10.dp
                         )
                     ) {
                         Text(
-                            "Create Account",
+                            "Join Auction",
                             fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    // Sign In Link (similar to create account link in login)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            "Already have an account? ",
+                            color = placeholderColor,
+                            fontSize = 14.sp
+                        )
+                        Text(
+                            "Sign In",
+                            color = primaryColor,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = Color.White
+                            textDecoration = TextDecoration.Underline,
+                            modifier = Modifier.clickable {
+                                // Navigate back to login
+                                activity?.finish()
+                            }
                         )
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

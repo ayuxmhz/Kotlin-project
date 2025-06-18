@@ -74,13 +74,14 @@ fun SplashBody() {
     val alphaAnimation = remember { Animatable(0f) }
     val rotationAnimation = remember { Animatable(0f) }
 
-    // Modern color scheme
-    val primaryColor = Color(0xFF2196F3)
-    val backgroundColor = Color(0xFFf8f9fa)
+    // Auction-themed color scheme
+    val primaryColor = Color(0xFFD4AF37) // Gold
+    val secondaryColor = Color(0xFF8B4513) // Rich brown
+    val backgroundColor = Color(0xFF1A1A1A) // Dark elegant background
     val gradientColors = listOf(
-        Color(0xFF1976D2),
-        Color(0xFF2196F3),
-        Color(0xFF64B5F6)
+        Color(0xFF2C1810), // Dark brown
+        Color(0xFF3D2817), // Medium brown
+        Color(0xFF1A1A1A)  // Charcoal
     )
 
     LaunchedEffect(Unit) {
@@ -145,53 +146,76 @@ fun SplashBody() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // App Logo with Animation
+                // App Logo with Animation - Auction themed
                 Box(
                     modifier = Modifier
                         .scale(scaleAnimation.value)
                         .alpha(alphaAnimation.value)
                         .background(
-                            Color.White.copy(alpha = 0.15f),
+                            primaryColor.copy(alpha = 0.1f),
                             CircleShape
                         )
                         .padding(32.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(48.dp)
+                        // Auction Gavel Icon (using a styled text representation)
+                        Text(
+                            text = "⚖️",
+                            fontSize = 48.sp,
+                            color = primaryColor
                         )
-                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
                         Text(
                             text = "Auction",
-                            fontSize = 36.sp,
+                            fontSize = 32.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color.White
+                            color = primaryColor,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Text(
+                            text = "PREMIUM",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            color = primaryColor.copy(alpha = 0.8f),
+                            letterSpacing = 2.sp
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(32.dp))
 
                 // Tagline
                 Text(
-                    text = "Find Your Perfect Auction",
-                    fontSize = 18.sp,
+                    text = "Bid • Win • Collect",
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color.White.copy(alpha = 0.9f),
+                    color = primaryColor.copy(alpha = 0.9f),
+                    textAlign = TextAlign.Center,
+                    letterSpacing = 1.sp,
+                    modifier = Modifier.alpha(alphaAnimation.value)
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Discover rare treasures and exclusive collectibles",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.White.copy(alpha = 0.7f),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.alpha(alphaAnimation.value)
                 )
 
                 Spacer(modifier = Modifier.height(48.dp))
 
-                // Modern Loading Indicator
+                // Elegant Loading Indicator
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.alpha(alphaAnimation.value)
@@ -201,14 +225,14 @@ fun SplashBody() {
                         modifier = Modifier
                             .size(56.dp)
                             .rotate(rotationAnimation.value),
-                        color = Color.White.copy(alpha = 0.3f),
+                        color = primaryColor.copy(alpha = 0.3f),
                         strokeWidth = 2.dp
                     )
 
                     // Inner ring
                     CircularProgressIndicator(
                         modifier = Modifier.size(40.dp),
-                        color = Color.White,
+                        color = primaryColor,
                         strokeWidth = 3.dp
                     )
                 }
@@ -217,8 +241,8 @@ fun SplashBody() {
 
                 // Loading text
                 Text(
-                    text = "Loading...",
-                    fontSize = 16.sp,
+                    text = "Preparing your auction experience...",
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color.White.copy(alpha = 0.8f),
                     modifier = Modifier.alpha(alphaAnimation.value)
@@ -236,14 +260,14 @@ fun SplashBody() {
                 Text(
                     text = "Powered by Auction",
                     fontSize = 12.sp,
-                    color = Color.White.copy(alpha = 0.6f),
+                    color = primaryColor.copy(alpha = 0.6f),
                     fontWeight = FontWeight.Light
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "Version 1.0",
+                    text = "Version 1.0 • Est. 2024",
                     fontSize = 10.sp,
                     color = Color.White.copy(alpha = 0.4f),
                     fontWeight = FontWeight.Light

@@ -1,4 +1,4 @@
-#Wed Jun 18 12:53:10 NPT 2025
+#Wed Jun 18 23:48:48 NPT 2025
 base.0=C\:\\Users\\Acer\\AndroidStudioProjects\\Mietladen\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\Acer\\AndroidStudioProjects\\Mietladen\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.2=C\:\\Users\\Acer\\AndroidStudioProjects\\Mietladen\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex

@@ -103,13 +103,14 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
     email = localEmail
     password = localPassword
 
-    // Modern color scheme
-    val primaryColor = Color(0xFF2196F3)
-    val backgroundColor = Color(0xFFf8f9fa)
-    val cardColor = Color.White
-    val textColor = Color(0xFF212529)
-    val placeholderColor = Color(0xFF6C757D)
-    val accentColor = Color(0xFF28a745)
+    // Auction-themed color scheme
+    val primaryColor = Color(0xFFD4AF37) // Gold
+    val backgroundColor = Color(0xFF1A1A1A) // Dark background
+    val cardColor = Color(0xFF2D2D2D) // Dark card
+    val textColor = Color(0xFFE8E8E8) // Light text
+    val placeholderColor = Color(0xFFB8B8B8) // Light gray placeholder
+    val accentColor = Color(0xFFD4AF37) // Gold accent
+    val inputBackgroundColor = Color(0xFF3D3D3D) // Dark input background
 
     Box(
         modifier = Modifier
@@ -117,8 +118,9 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        backgroundColor,
-                        Color(0xFFe9ecef)
+                        Color(0xFF2C1810), // Dark brown
+                        Color(0xFF1A1A1A), // Charcoal
+                        Color(0xFF0F0F0F)  // Almost black
                     )
                 )
             )
@@ -133,30 +135,28 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
         ) {
             Spacer(modifier = Modifier.height(60.dp))
 
-            // App Header
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+            // App Header - Auction themed
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(
-                    imageVector = Icons.Default.Home,
-                    contentDescription = null,
-                    tint = primaryColor,
-                    modifier = Modifier.size(36.dp)
+                Text(
+                    text = "⚖️",
+                    fontSize = 48.sp,
+                    color = primaryColor
                 )
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Auction",
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textColor
+                    color = primaryColor
                 )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Welcome back! Sign in to continue",
+                text = "Sign in to start bidding on exclusive items",
                 fontSize = 16.sp,
                 color = placeholderColor,
                 textAlign = TextAlign.Center
@@ -169,12 +169,14 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .shadow(
-                        elevation = 8.dp,
+                        elevation = 12.dp,
                         shape = RoundedCornerShape(16.dp),
-                        ambientColor = Color.Black.copy(alpha = 0.1f)
+                        ambientColor = primaryColor.copy(alpha = 0.1f)
                     ),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = cardColor)
+                colors = CardDefaults.cardColors(
+                    containerColor = cardColor
+                )
             ) {
                 Column(
                     modifier = Modifier
@@ -182,10 +184,17 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Sign In",
+                        text = "Welcome Back",
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
-                        color = textColor,
+                        color = primaryColor,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    Text(
+                        text = "Access your auction account",
+                        fontSize = 14.sp,
+                        color = placeholderColor,
                         modifier = Modifier.padding(bottom = 28.dp)
                     )
 
@@ -205,8 +214,10 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = primaryColor,
-                            unfocusedBorderColor = Color(0xFFDEE2E6),
-                            focusedLabelColor = primaryColor
+                            unfocusedBorderColor = Color(0xFF4A4A4A),
+                            focusedLabelColor = primaryColor,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Email
@@ -250,8 +261,10 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = primaryColor,
-                            unfocusedBorderColor = Color(0xFFDEE2E6),
-                            focusedLabelColor = primaryColor
+                            unfocusedBorderColor = Color(0xFF4A4A4A),
+                            focusedLabelColor = primaryColor,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Password
@@ -274,8 +287,8 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
                                 onCheckedChange = { rememberMe = it },
                                 colors = CheckboxDefaults.colors(
                                     checkedColor = accentColor,
-                                    checkmarkColor = Color.White,
-                                    uncheckedColor = Color(0xFFDEE2E6)
+                                    checkmarkColor = Color.Black,
+                                    uncheckedColor = Color(0xFF4A4A4A)
                                 )
                             )
                             Text(
@@ -327,15 +340,15 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
                             containerColor = primaryColor
                         ),
                         elevation = ButtonDefaults.buttonElevation(
-                            defaultElevation = 4.dp,
-                            pressedElevation = 8.dp
+                            defaultElevation = 6.dp,
+                            pressedElevation = 10.dp
                         )
                     ) {
                         Text(
-                            "Sign In",
+                            "Enter Auction",
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.White
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
                         )
                     }
 
@@ -348,12 +361,12 @@ fun LoginBody(innerPaddingValues: PaddingValues) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            "Don't have an account? ",
+                            "New to auctions? ",
                             color = placeholderColor,
                             fontSize = 14.sp
                         )
                         Text(
-                            "Sign Up",
+                            "Create Account",
                             color = primaryColor,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
