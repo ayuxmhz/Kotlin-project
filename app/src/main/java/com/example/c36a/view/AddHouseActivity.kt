@@ -16,9 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import coil.compose.AsyncImage
 import androidx.compose.ui.layout.ContentScale
@@ -28,13 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.c36a.model.HouseModel
-import com.example.c36a.repository.HouseRepositoryImpl
+import com.example.c36a.model.AuctionModel
+import com.example.c36a.repository.AuctionRepositoryImpl
 import com.example.c36a.utils.ImageUtils
-import com.example.c36a.viewmodel.HouseViewModel
-import com.example.c36a.R
+import com.example.c36a.viewmodel.AuctionViewModel
 
-class AddHouseActivity : ComponentActivity() {
+class AddAuctionActivity : ComponentActivity() {
     lateinit var imageUtils: ImageUtils
     var selectedImageUri by mutableStateOf<Uri?>(null)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +42,7 @@ class AddHouseActivity : ComponentActivity() {
             selectedImageUri = uri
         }
         setContent {
-            AddHouseBody(
+            AddAuctionBody(
                    selectedImageUri = selectedImageUri,
                 onPickImage = { imageUtils.launchImagePicker() }
             )
@@ -54,7 +51,7 @@ class AddHouseActivity : ComponentActivity() {
 }
 
 @Composable
-fun AddHouseBody(
+fun AddAuctionBody(
     selectedImageUri: Uri?,
     onPickImage: () -> Unit
 ) {
@@ -62,8 +59,8 @@ fun AddHouseBody(
     var housePrice by remember { mutableStateOf("") }
     var houseDesc by remember { mutableStateOf("") }
 
-    val repo = remember { HouseRepositoryImpl() }
-    val viewModel = remember { HouseViewModel(repo) }
+    val repo = remember { AuctionRepositoryImpl() }
+    val viewModel = remember { AuctionViewModel(repo) }
 
     val context = LocalContext.current
     val activity = context as? Activity
@@ -81,7 +78,7 @@ fun AddHouseBody(
 
                 // Title
                 Text(
-                    text = "Add House Details",
+                    text = "Add Auction Details",
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
@@ -90,9 +87,9 @@ fun AddHouseBody(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // House Name Field
+                // Auction Name Field
                 Text(
-                    text = "House Name",
+                    text = "Auction Name",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color.Black,
@@ -168,9 +165,9 @@ fun AddHouseBody(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // House Image Section
+                // Auction Image Section
                 Text(
-                    text = "House Image",
+                    text = "Auction Image",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color.Black,
@@ -215,14 +212,14 @@ fun AddHouseBody(
                         if (selectedImageUri != null) {
                             viewModel.uploadImage(context, selectedImageUri) { imageUrl ->
                                 if (imageUrl != null) {
-                                    val model = HouseModel(
+                                    val model = AuctionModel(
                                         "",
                                         houseName,
                                         housePrice.toDouble(),
                                         houseDesc,
                                         imageUrl
                                     )
-                                    viewModel.addHouse(model) { success, message ->
+                                    viewModel.addAuction(model) { success, message ->
                                         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                                         if (success) activity?.finish()
                                     }
@@ -261,8 +258,8 @@ fun AddHouseBody(
 
 @Preview
 @Composable
-fun previewAddHouseBody() {
-    AddHouseBody(
+fun previewAddAuctionBody() {
+    AddAuctionBody(
         selectedImageUri = null, // or pass a mock Uri if needed
         onPickImage = {})
 

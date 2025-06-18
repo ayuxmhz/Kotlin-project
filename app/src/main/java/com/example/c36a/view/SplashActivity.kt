@@ -169,7 +169,7 @@ fun SplashBody() {
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(
-                            text = "RentHouse",
+                            text = "Auction",
                             fontSize = 36.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
@@ -181,7 +181,7 @@ fun SplashBody() {
 
                 // Tagline
                 Text(
-                    text = "Find Your Perfect Home",
+                    text = "Find Your Perfect Auction",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color.White.copy(alpha = 0.9f),
@@ -234,7 +234,7 @@ fun SplashBody() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Powered by RentHouse",
+                    text = "Powered by Auction",
                     fontSize = 12.sp,
                     color = Color.White.copy(alpha = 0.6f),
                     fontWeight = FontWeight.Light

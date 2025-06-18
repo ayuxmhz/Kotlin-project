@@ -11,13 +11,9 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -41,10 +37,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.c36a.R
-import com.example.c36a.model.HouseModel
-import com.example.c36a.repository.HouseRepositoryImpl
-import com.example.c36a.viewmodel.HouseViewModel
+import com.example.c36a.model.AuctionModel
+import com.example.c36a.repository.AuctionRepositoryImpl
+import com.example.c36a.viewmodel.AuctionViewModel
 
 class DashboardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,16 +74,16 @@ fun DashboardBody() {
     val context = LocalContext.current
     val activity = context as? Activity
 
-    val repo = remember { HouseRepositoryImpl() }
-    val viewModel = remember { HouseViewModel(repo) }
+    val repo = remember { AuctionRepositoryImpl() }
+    val viewModel = remember { AuctionViewModel(repo) }
 
-    val houses = viewModel.allHouses.observeAsState(initial = emptyList())
+    val auctions = viewModel.allAuctions.observeAsState(initial = emptyList())
     val loading = viewModel.loading.observeAsState(initial = true)
     var searchQuery by remember { mutableStateOf("") }
 
 
     LaunchedEffect(Unit) {
-        viewModel.getAllHouse()
+        viewModel.getAllAuction()
     }
 
     Column(
@@ -173,7 +168,7 @@ fun DashboardBody() {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    CategoryChip("House", true)
+                    CategoryChip("Auction", true)
                     CategoryChip("Apartment", false)
                     CategoryChip("Hotel", false)
                     CategoryChip("Villa", false)
@@ -208,7 +203,7 @@ fun DashboardBody() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "Available Houses",
+                                text = "Available Auctions",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.Black
@@ -223,19 +218,19 @@ fun DashboardBody() {
                         }
                     }
 
-                    // Houses Grid
-                    items(houses.value.size) { index ->
-                        val eachHouse = houses.value[index]
-                        ModernHouseCard(
-                            house = eachHouse,
+                    // Auctions Grid
+                    items(auctions.value.size) { index ->
+                        val eachAuction = auctions.value[index]
+                        ModernAuctionCard(
+                            auction = eachAuction,
                             onEdit = {
-                                // Uncomment when UpdateHouseActivity is ready
-                                 val intent = Intent(context, UpdateHouseActivity::class.java)
-                                 intent.putExtra("houseId", "${eachHouse?.houseId}")
+                                // Uncomment when UpdateAuctionActivity is ready
+                                 val intent = Intent(context, UpdateAuctionActivity::class.java)
+                                 intent.putExtra("auctionId", "${eachAuction?.auctionId}")
                                  context.startActivity(intent)
                             },
                             onDelete = {
-                                viewModel.deleteHouse(eachHouse?.houseId.toString()) { success, message ->
+                                viewModel.deleteAuction(eachAuction?.auctionId.toString()) { success, message ->
                                     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
                                 }
                             }
@@ -247,7 +242,7 @@ fun DashboardBody() {
             // Floating Action Button
             FloatingActionButton(
                 onClick = {
-                    val intent = Intent(context, AddHouseActivity::class.java)
+                    val intent = Intent(context, AddAuctionActivity::class.java)
                     context.startActivity(intent)
                 },
                 modifier = Modifier
@@ -256,7 +251,7 @@ fun DashboardBody() {
                 containerColor = Color(0xFF2196F3),
                 contentColor = Color.White
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Add House")
+                Icon(Icons.Default.Add, contentDescription = "Add Auction")
             }
         }
     }
@@ -286,8 +281,8 @@ fun CategoryChip(text: String, isSelected: Boolean) {
 }
 
 @Composable
-fun ModernHouseCard(
-    house: HouseModel?, // Replace with your House data class
+fun ModernAuctionCard(
+    auction: AuctionModel?, // Replace with your Auction data class
     onEdit: () -> Unit,
     onDelete: () -> Unit
 ) {
@@ -308,10 +303,10 @@ fun ModernHouseCard(
                     .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
             ) {
                 // Use AsyncImage from Coil for loading images from URLs
-                // Replace with actual image URL from your house object
+                // Replace with actual image URL from your auction object
                 AsyncImage(
-                    model = house?.imageURL,
-                    contentDescription = "House Image",
+                    model = auction?.imageURL,
+                    contentDescription = "Auction Image",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
                     placeholder = painterResource(id = android.R.drawable.ic_menu_gallery),
@@ -385,9 +380,9 @@ fun ModernHouseCard(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                // House Name
+                // Auction Name
                 Text(
-                    text = house!!.houseName,
+                    text = auction!!.auctionName,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
@@ -399,7 +394,7 @@ fun ModernHouseCard(
 
                 // Price
                 Text(
-                    text = house?.housePrice.toString(),
+                    text = auction?.auctionPrice.toString(),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color(0xFF2196F3)
@@ -407,13 +402,13 @@ fun ModernHouseCard(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // House Details Row
+                // Auction Details Row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    HouseDetail(icon = "🛏️", text = "4 Bedroom")
-                    HouseDetail(icon = "🚿", text = "2 Bathroom")
+                    AuctionDetail(icon = "🛏️", text = "4 Bedroom")
+                    AuctionDetail(icon = "🚿", text = "2 Bathroom")
                 }
             }
         }
@@ -421,7 +416,7 @@ fun ModernHouseCard(
 }
 
 @Composable
-fun HouseDetail(icon: String, text: String) {
+fun AuctionDetail(icon: String, text: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)

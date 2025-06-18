@@ -142,7 +142,7 @@ fun RegBody(innerPaddingValues: PaddingValues) {
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = "RentHouse",
+                    text = "Auction",
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
                     color = textColor
